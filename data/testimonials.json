@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "id": "testimonio-sofia",
+    "name": "Sofía Mendoza",
+    "position": {
+      "es": "Fundadora de EcoModa",
+      "en": "Founder at EcoModa"
+    },
+    "quote": {
+      "es": "El diagnóstico de Synnergy Lab nos abrió los ojos. Gracias a su plan estratégico de marketing dejamos de tirar dinero en publicidad y empezamos a ver resultados comerciales reales.",
+      "en": "Synnergy Lab's diagnosis opened our eyes. Thanks to their strategic marketing plan, we stopped wasting money on ads and started seeing real business results."
+    }
+  },
+  {
+    "id": "testimonio-carlos",
+    "name": "Carlos Rivas",
+    "position": {
+      "es": "Director de Operaciones en Novatech",
+      "en": "COO at Novatech"
+    },
+    "quote": {
+      "es": "Profesionalismo, método y enfoque en el negocio. Synnergy estructuró todo nuestro marketing de tal manera que ahora sabemos exactamente qué medir y cómo optimizar cada semana.",
+      "en": "Professionalism, method, and business focus. Synnergy structured all our marketing in such a way that we now know exactly what to measure and how to optimize every week."
+    }
+  }
+]

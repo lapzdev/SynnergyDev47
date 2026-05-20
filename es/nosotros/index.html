@@ -19,30 +19,7 @@
   <!-- El cuerpo define el contexto de página (home o interior) que aprovechan los estilos y scripts compartidos. -->
   <body class="page-inner">
     <!-- Encabezado reutilizable: conecta marca, navegación principal y cambio de idioma con la arquitectura completa del sitio. -->
-    <header class="site-header">
-      <div class="container site-header__inner">
-        <!-- Bloque de marca: enlaza al inicio de idioma actual y muestra logotipos para temas claro/oscuro definidos en CSS global. -->
-        <a class="brand-mark" href="../" aria-label="Synnergy Lab, inicio">
-          <img class="brand-logo brand-logo--light" src="../../assets/img/branding/synnergy-lab-logo-color.png" alt="Synnergy Lab" />
-          <img class="brand-logo brand-logo--dark" src="../../assets/img/branding/synnergy-lab-logo-white.png" alt="Synnergy Lab" />
-          <span class="brand-text">Synnergy Lab</span>
-        </a>
-        <!-- Navegación primaria: relaciona esta página con las demás secciones del mismo idioma y marca el flujo principal del usuario. -->
-        <nav class="site-nav" aria-label="Navegación principal">
-          <ul class="nav-list">
-            <li><a class="nav-link" href="../servicios/">Servicios</a></li>
-            <li><a class="nav-link" href="../proyectos/">Proyectos</a></li>
-            <li><a class="nav-link is-active" href="./">Nosotros</a></li>
-            <li><a class="nav-link" href="../agencia/">Agencia</a></li>
-            <li><a class="nav-link" href="../contacto/">Contacto</a></li>
-          </ul>
-        </nav>
-        <!-- Selector de idioma: enlaza la contraparte equivalente en la otra versión lingüística para mantener paridad de contenidos. -->
-        <div class="language-switcher" aria-label="Selector de idioma">
-          <a class="language-toggle" href="../../en/about/" lang="en" aria-label="Switch to English" title="Switch to English">EN</a>
-        </div>
-      </div>
-    </header>
+    <site-header></site-header>
 
     <!-- Contenido principal: agrupa bloques funcionales de valor (hero + contenido) y sirve como referencia para accesibilidad. -->
     <main id="main-content">
@@ -100,13 +77,7 @@
       </section>
     </main>
 
-    <!-- Pie de página global: cierra la página con mensaje institucional y año dinámico sincronizado por JavaScript compartido. -->
-    <footer class="site-footer">
-      <div class="container site-footer__inner">
-        <p>Synnergy Lab trabaja datos y metodología profesionalizar tu marketing.</p>
-        <small>© <span data-current-year></span> Synnergy Lab</small>
-      </div>
-    </footer>
+    <site-footer></site-footer>
 
     <!-- Script común: inicializa comportamientos globales (por ejemplo, año actual y módulos UI) para todos los documentos. -->
     <script src="../../assets/js/main.js"></script>

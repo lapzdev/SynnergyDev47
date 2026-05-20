@@ -1,19 +1,672 @@
 /*
- * Hoja de estilos principal.
- * Carga fuentes y módulos CSS en el orden base -> componentes -> secciones
- * para mantener la cascada predecible.
+ * Synnergy Lab - Hoja de Estilos Consolidada y de Alto Rendimiento
+ * Centraliza fuentes, tokens de diseño y todos los módulos base, componentes y secciones.
+ * Elimina la cascada secuencial de imports para lograr un First Contentful Paint instantáneo.
  */
+
+/* 1. FUENTES EXTERNAS */
 @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@600;700;800&family=Montserrat:wght@400;500;600;700&display=swap');
-@import url('./base/reset.css');
-@import url('./base/variables.css');
-@import url('./base/global.css');
-@import url('./components/header.css');
-@import url('./components/footer.css');
-@import url('./components/buttons.css');
-@import url('./components/cards.css');
-@import url('./components/forms.css');
-@import url('./sections/hero.css');
-@import url('./sections/services.css');
-@import url('./sections/portfolio.css');
-@import url('./sections/testimonials.css');
-@import url('./sections/contact.css');
+
+/* ==========================================
+   2. RESET UNIVERSAL (base/reset.css)
+   ========================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body,
+h1,
+h2,
+h3,
+p,
+ul {
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+/* ==========================================
+   3. DESIGN TOKENS & VARIABLES (base/variables.css)
+   ========================================== */
+:root {
+  --syn-dark-blue: #0a2e5a;
+  --syn-purple: #7b1ba4;
+  --color-background: #f2f2f2;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f7f4fb;
+  --color-border: rgba(10, 46, 90, 0.12);
+  --color-text: #0a2e5a;
+  --color-text-strong: #061c36;
+  --color-text-muted: #49607d;
+  --color-primary: #0a2e5a;
+  --color-primary-strong: #071f3d;
+  --color-accent: #7b1ba4;
+  --color-accent-soft: rgba(123, 27, 164, 0.1);
+  --color-highlight: rgba(10, 46, 90, 0.08);
+  --color-shadow: rgba(10, 46, 90, 0.12);
+  --body-gradient:
+    radial-gradient(circle at top right, rgba(123, 27, 164, 0.12), transparent 24%),
+    linear-gradient(180deg, #ffffff 0%, #f2f2f2 55%, #ede8f5 100%);
+  --header-surface: rgba(242, 242, 242, 0.9);
+  --glass-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 244, 251, 0.98));
+  --footer-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(237, 232, 245, 0.98));
+  --font-heading: "Exo 2", "Segoe UI", Arial, sans-serif;
+  --font-sans: "Montserrat", "Segoe UI", Arial, sans-serif;
+  --max-width: 72rem;
+  --radius-sm: 0.75rem;
+  --radius-md: 1.25rem;
+  --radius-lg: 1.75rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4.5rem;
+  --space-3xl: 6rem;
+  --shadow-md: 0 24px 60px -32px var(--color-shadow);
+}
+
+:root[data-theme='dark'] {
+  --color-background: #071d3a;
+  --color-surface: rgba(14, 39, 72, 0.75);
+  --color-surface-soft: rgba(23, 49, 90, 0.62);
+  --color-border: rgba(177, 125, 214, 0.35);
+  --color-text: #e6ebff;
+  --color-text-strong: #ffffff;
+  --color-text-muted: #c2caea;
+  --color-primary: #e6ebff;
+  --color-primary-strong: #ffffff;
+  --color-accent: #d394f7;
+  --color-accent-soft: rgba(123, 27, 164, 0.34);
+  --color-highlight: rgba(160, 107, 202, 0.2);
+  --color-shadow: rgba(3, 10, 24, 0.58);
+  --body-gradient:
+    radial-gradient(circle at 12% 0%, rgba(123, 27, 164, 0.34), transparent 42%),
+    radial-gradient(circle at 88% 12%, rgba(10, 46, 90, 0.58), transparent 48%),
+    linear-gradient(150deg, #071d3a 0%, #0a2e5a 52%, #7b1ba4 100%);
+  --header-surface: rgba(8, 28, 55, 0.7);
+  --glass-surface: linear-gradient(165deg, rgba(17, 43, 79, 0.72), rgba(123, 27, 164, 0.22));
+  --footer-surface: linear-gradient(180deg, rgba(7, 29, 58, 0.92), rgba(10, 46, 90, 0.94));
+}
+
+/* ==========================================
+   4. ESTILOS GLOBALES & GRID (base/global.css)
+   ========================================== */
+body {
+  min-height: 100vh;
+  background: var(--body-gradient);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+main {
+  display: block;
+}
+
+.container {
+  width: min(calc(100% - 2rem), var(--max-width));
+  margin: 0 auto;
+}
+
+/* Transiciones globales fluidas */
+body,
+.site-header,
+.card,
+.language-toggle,
+.button-secondary,
+.theme-toggle {
+  transition:
+    background 300ms ease,
+    background-color 300ms ease,
+    border-color 300ms ease,
+    color 300ms ease,
+    box-shadow 300ms ease,
+    transform 300ms ease;
+}
+
+.eyebrow,
+.section-kicker {
+  margin-top: calc(var(--space-2xs) * 0.66);
+  margin-bottom: calc(var(--space-xs) * 0.66);
+  color: var(--color-accent);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+.brand-mark {
+  font-family: var(--font-heading);
+  line-height: 1.12;
+  color: var(--color-text-strong);
+}
+
+h1 {
+  font-size: clamp(1.9rem, 4vw, 3.55rem);
+  margin-top: calc(var(--space-md) * 0.66);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+p,
+li,
+small {
+  color: var(--color-text-muted);
+}
+
+.lead {
+  max-width: 42rem;
+  font-size: clamp(1.02rem, 2vw, 1.18rem);
+}
+
+strong,
+code {
+  color: var(--color-text-strong);
+}
+
+.content-section {
+  padding: 0 0 var(--space-3xl);
+}
+
+.section-heading {
+  margin-bottom: var(--space-lg);
+}
+
+.card-grid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+@media (min-width: 48rem) {
+  .card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ==========================================
+   5. CABECERA & NAVEGACIÓN (components/header.css)
+   ========================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(16px);
+  background: var(--header-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(0.25rem, 1.5vw, var(--space-sm));
+  padding: 1rem 0;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(0.35rem, 1.4vw, 0.6rem);
+  color: var(--color-primary);
+}
+
+.brand-logo {
+  display: block;
+  width: auto;
+  height: clamp(1.8rem, 4vw, 2.25rem);
+}
+
+.brand-text {
+  font-size: clamp(0.92rem, 2.2vw, 1.1rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.brand-logo--dark {
+  display: none;
+}
+
+:root[data-theme='dark'] .brand-logo--light {
+  display: none;
+}
+
+:root[data-theme='dark'] .brand-logo--dark {
+  display: block;
+}
+
+.site-nav {
+  order: 2;
+  flex: 0 0 100%;
+  min-width: 100%;
+}
+
+.nav-list {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  gap: clamp(0.02rem, 0.18vw, 0.08rem);
+  width: 100%;
+}
+
+.nav-list > li {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  width: 100%;
+  padding: clamp(0.36rem, 1.15vw, 0.62rem) clamp(0.12rem, 0.5vw, 0.32rem);
+  font-size: clamp(0.82rem, 2.3vw, 1.12rem);
+  line-height: 1.1;
+  border-radius: 999px;
+  color: var(--color-text-muted);
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+@media (max-width: 30rem) {
+  .site-header__inner {
+    padding: 0.8rem 0;
+  }
+
+  .site-header .container.site-header__inner {
+    width: min(calc(100% - 1rem), var(--max-width));
+  }
+
+  .brand-text {
+    font-size: clamp(0.82rem, 2.6vw, 0.95rem);
+  }
+
+  .language-switcher {
+    gap: 0.3rem;
+  }
+
+  .nav-list {
+    gap: 0;
+  }
+
+  .nav-link {
+    padding: 0.34rem clamp(0.06rem, 0.32vw, 0.14rem);
+  }
+}
+
+.nav-link:hover,
+.nav-link:focus-visible,
+.nav-link.is-active {
+  background: var(--color-accent-soft);
+  color: var(--color-primary);
+}
+
+.language-switcher {
+  margin-inline-start: auto;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex: 0 0 auto;
+  gap: 0.4rem;
+}
+
+.language-toggle,
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.language-toggle:hover,
+.language-toggle:focus-visible,
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  background: var(--color-accent-soft);
+  color: var(--color-primary);
+}
+
+@media (min-width: 62rem) {
+  .site-header__inner {
+    flex-wrap: nowrap;
+  }
+
+  .site-nav {
+    order: 0;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .nav-list {
+    justify-content: center;
+    width: auto;
+    gap: var(--space-2xs);
+  }
+
+  .nav-list > li {
+    flex: 0 1 auto;
+  }
+
+  .nav-link {
+    align-items: center;
+    width: auto;
+    padding: clamp(0.4rem, 1.7vw, 0.65rem) clamp(0.45rem, 1.8vw, 0.85rem);
+    font-size: clamp(0.72rem, 2.1vw, 1rem);
+  }
+}
+
+/* ==========================================
+   6. PIE DE PÁGINA (components/footer.css)
+   ========================================== */
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  background: var(--footer-surface);
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-lg) 0 var(--space-xl);
+}
+
+.site-footer p,
+.site-footer small {
+  max-width: 48rem;
+}
+
+.site-footer p {
+  font-size: 0.95rem;
+}
+
+@media (min-width: 48rem) {
+  .site-footer__inner {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* ==========================================
+   7. BOTONES Y INTERACCIÓN PREMIUM (components/buttons.css)
+   ========================================== */
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.9rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  /* Animación elástica premium */
+  transition: 
+    transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+    background-color 0.3s ease, 
+    border-color 0.3s ease, 
+    color 0.3s ease, 
+    box-shadow 0.3s ease;
+  will-change: transform, box-shadow;
+}
+
+.button:hover,
+.button:focus-visible {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 24px -10px var(--color-shadow);
+}
+
+.button:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+.button-primary {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.button-primary:hover,
+.button-primary:focus-visible {
+  background: color-mix(in srgb, var(--color-primary) 88%, black);
+  box-shadow: 0 12px 30px -8px color-mix(in srgb, var(--color-primary) 40%, transparent);
+}
+
+.button-secondary {
+  border-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  color: var(--color-accent);
+}
+
+.button-secondary:hover,
+.button-secondary:focus-visible {
+  background: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  box-shadow: 0 12px 30px -8px var(--color-accent-soft);
+}
+
+:root[data-theme='dark'] .button-primary {
+  background: var(--syn-purple);
+  color: #ffffff;
+}
+
+:root[data-theme='dark'] .button-primary:hover,
+:root[data-theme='dark'] .button-primary:focus-visible {
+  background: color-mix(in srgb, var(--syn-purple) 85%, white);
+  box-shadow: 0 12px 30px -6px rgba(211, 148, 247, 0.4);
+}
+
+:root[data-theme='dark'] .button-secondary {
+  border-color: color-mix(in srgb, var(--syn-purple) 64%, var(--syn-dark-blue));
+  background: color-mix(in srgb, var(--syn-dark-blue) 78%, black);
+  color: #ffffff;
+}
+
+:root[data-theme='dark'] .button-secondary:hover,
+:root[data-theme='dark'] .button-secondary:focus-visible {
+  border-color: color-mix(in srgb, var(--syn-purple) 72%, white);
+  background: color-mix(in srgb, var(--syn-dark-blue) 62%, var(--syn-purple));
+  box-shadow: 0 12px 30px -6px rgba(10, 46, 90, 0.5);
+}
+
+/* ==========================================
+   8. TARJETAS & ANIMACIONES PREMIUM 3D GLASSMORPHISM (components/cards.css)
+   ========================================== */
+.card {
+  padding: var(--space-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--glass-surface);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-md);
+  /* Transición ultra suave para efecto 3D */
+  transition: 
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+    box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+    border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.5s ease;
+  will-change: transform, box-shadow;
+}
+
+/* Hover de tarjeta premium con elevación, sombra coloreada y brillo */
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: var(--color-accent);
+  box-shadow: 
+    0 32px 64px -24px var(--color-shadow), 
+    0 0 30px -10px var(--color-accent-soft);
+}
+
+.content-card h2 {
+  margin-bottom: var(--space-xs);
+}
+
+/* ==========================================
+   9. FORMULARIOS (components/forms.css)
+   ========================================== */
+input,
+textarea,
+select {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-text);
+  padding: 0.75rem 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+:root[data-theme='dark'] input,
+:root[data-theme='dark'] textarea,
+:root[data-theme='dark'] select {
+  background: rgba(8, 28, 55, 0.85);
+  color: var(--color-text);
+}
+
+/* ==========================================
+   10. SECCIONES - HERO (sections/hero.css)
+   ========================================== */
+.hero-section {
+  padding: calc(var(--space-2xl) * 0.66) 0 var(--space-2xl);
+}
+
+.hero-grid {
+  display: grid;
+  gap: var(--space-lg);
+  align-items: start;
+}
+
+.hero-copy {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.hero-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-panel::after {
+  content: '';
+  position: absolute;
+  inset: auto -3rem -3rem auto;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(123, 27, 164, 0.18), transparent 70%);
+}
+
+.hero-panel h2 {
+  margin-bottom: var(--space-sm);
+}
+
+.feature-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.feature-list li {
+  position: relative;
+  padding-left: 1.25rem;
+}
+
+.feature-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+}
+
+@media (min-width: 62rem) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 0.85fr);
+  }
+}
+
+/* ==========================================
+   11. SECCIONES - SERVICIOS (sections/services.css)
+   ========================================== */
+.page-inner .hero-section {
+  padding-top: var(--space-xl);
+}
+
+/* ==========================================
+   12. SECCIONES - PORTAFOLIO (sections/portfolio.css)
+   ========================================== */
+.content-card {
+  min-height: 100%;
+}
+
+/* ==========================================
+   13. SECCIONES - TESTIMONIOS (sections/testimonials.css)
+   ========================================== */
+.testimonial-card {
+  border-left: 4px solid var(--color-accent) !important;
+}
+
+/* ==========================================
+   14. SECCIONES - CONTACTO (sections/contact.css)
+   ========================================== */
+.page-inner .content-section {
+  padding-bottom: var(--space-2xl);
+}

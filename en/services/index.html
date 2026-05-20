@@ -19,30 +19,7 @@
   <!-- El cuerpo define el contexto de página (home o interior) que aprovechan los estilos y scripts compartidos. -->
   <body class="page-inner">
     <!-- Encabezado reutilizable: conecta marca, navegación principal y cambio de idioma con la arquitectura completa del sitio. -->
-    <header class="site-header">
-      <div class="container site-header__inner">
-        <!-- Bloque de marca: enlaza al inicio de idioma actual y muestra logotipos para temas claro/oscuro definidos en CSS global. -->
-        <a class="brand-mark" href="../" aria-label="Synnergy Lab, home">
-          <img class="brand-logo brand-logo--light" src="../../assets/img/branding/synnergy-lab-logo-color.png" alt="Synnergy Lab" />
-          <img class="brand-logo brand-logo--dark" src="../../assets/img/branding/synnergy-lab-logo-white.png" alt="Synnergy Lab" />
-          <span class="brand-text">Synnergy Lab</span>
-        </a>
-        <!-- Navegación primaria: relaciona esta página con las demás secciones del mismo idioma y marca el flujo principal del usuario. -->
-        <nav class="site-nav" aria-label="Main navigation">
-          <ul class="nav-list">
-            <li><a class="nav-link is-active" href="./">Services</a></li>
-            <li><a class="nav-link" href="../projects/">Projects</a></li>
-            <li><a class="nav-link" href="../about/">About</a></li>
-            <li><a class="nav-link" href="../agency/">Agency</a></li>
-            <li><a class="nav-link" href="../contact/">Contact</a></li>
-          </ul>
-        </nav>
-        <!-- Selector de idioma: enlaza la contraparte equivalente en la otra versión lingüística para mantener paridad de contenidos. -->
-        <div class="language-switcher" aria-label="Language switcher">
-          <a class="language-toggle" href="../../es/servicios/" lang="es" aria-label="Cambiar a español" title="Cambiar a español">ES</a>
-        </div>
-      </div>
-    </header>
+    <site-header></site-header>
 
     <!-- Contenido principal: agrupa bloques funcionales de valor (hero + contenido) y sirve como referencia para accesibilidad. -->
     <main id="main-content">
@@ -80,33 +57,13 @@
           <h2>A service structure designed to bring direction and continuity</h2>
         </div>
         <!-- Rejilla de tarjetas: estructura información en unidades paralelas para facilitar lectura, comparación y escalabilidad. -->
-        <div class="container card-grid">
-          <!-- Tarjeta de contenido 1: bloque autocontenido que detalla un pilar específico y se integra con la narrativa general. -->
-          <article class="card content-card">
-            <h2>Strategic diagnosis</h2>
-            <p>Business review, market analysis, positioning, channels, and opportunities to identify where to act first.</p>
-          </article>
-          <!-- Tarjeta de contenido 2: bloque autocontenido que detalla un pilar específico y se integra con la narrativa general. -->
-          <article class="card content-card">
-            <h2>Marketing strategy</h2>
-            <p>Strategic document and execution roadmap with priorities, audiences, value proposition, and funnel logic.</p>
-          </article>
-          <!-- Tarjeta de contenido 3: bloque autocontenido que detalla un pilar específico y se integra con la narrativa general. -->
-          <article class="card content-card">
-            <h2>Implementation, measurement, and optimization</h2>
-            <p>Aligned execution, metric tracking, and periodic adjustments to improve performance.</p>
-          </article>
+        <div class="container card-grid" id="dynamic-services">
+          <!-- Carga dinámica vía data-loader.js -->
         </div>
       </section>
     </main>
 
-    <!-- Pie de página global: cierra la página con mensaje institucional y año dinámico sincronizado por JavaScript compartido. -->
-    <footer class="site-footer">
-      <div class="container site-footer__inner">
-        <p>Synnergy Lab works with method, data, and business focus to professionalize marketing.</p>
-        <small>© <span data-current-year></span> Synnergy Lab</small>
-      </div>
-    </footer>
+    <site-footer></site-footer>
 
     <!-- Script común: inicializa comportamientos globales (por ejemplo, año actual y módulos UI) para todos los documentos. -->
     <script src="../../assets/js/main.js"></script>

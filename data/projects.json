@@ -1,1 +1,47 @@
-[]
+[
+  {
+    "id": "proyecto-ecommerce",
+    "title": {
+      "es": "E-commerce de Moda Sostenible",
+      "en": "Sustainable Fashion E-commerce"
+    },
+    "kicker": {
+      "es": "Optimización de Embudo",
+      "en": "Funnel Optimization"
+    },
+    "description": {
+      "es": "Rediseño completo de la estrategia de adquisición, segmentación avanzada de anuncios y automatización de embudos de email, logrando aumentar un 45% las ventas recurrentes en 6 meses.",
+      "en": "Complete redesign of the acquisition strategy, advanced ad targeting, and email funnel automation, achieving a 45% increase in recurring sales in 6 months."
+    }
+  },
+  {
+    "id": "proyecto-b2b",
+    "title": {
+      "es": "Firma de Consultoría Tecnológica",
+      "en": "Tech Consulting Firm"
+    },
+    "kicker": {
+      "es": "Generación de Leads B2B",
+      "en": "B2B Lead Generation"
+    },
+    "description": {
+      "es": "Definición de propuesta de valor en canales profesionales (LinkedIn) y diseño de embudo de captación automatizado, incrementando un 60% las solicitudes de diagnóstico calificado.",
+      "en": "Value proposition definition on professional networks (LinkedIn) and automated capture funnel design, growing qualified diagnosis requests by 60%."
+    }
+  },
+  {
+    "id": "proyecto-local",
+    "title": {
+      "es": "Centro Médico de Bienestar Integral",
+      "en": "Holistic Wellness Medical Center"
+    },
+    "kicker": {
+      "es": "SEO Local y Conversión",
+      "en": "Local SEO & Conversion"
+    },
+    "description": {
+      "es": "Optimización del perfil comercial de Google y estrategia de contenido localizado enfocada en conversión directa, logrando duplicar el agendamiento mensual de pacientes.",
+      "en": "Google business profile optimization and localized content strategy focused on direct conversion, successfully doubling monthly patient bookings."
+    }
+  }
+]

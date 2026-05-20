@@ -1,1 +1,47 @@
-[]
+[
+  {
+    "id": "diagnostico",
+    "title": {
+      "es": "Diagnóstico Estratégico de Marketing",
+      "en": "Strategic Marketing Diagnosis"
+    },
+    "kicker": {
+      "es": "Auditoría Inicial",
+      "en": "Initial Audit"
+    },
+    "description": {
+      "es": "Analizamos la situación real de tu negocio, tu competencia y tu presencia digital para detectar qué está frenando el crecimiento y dónde radican las mayores oportunidades comerciales.",
+      "en": "We analyze your real business situation, competition, and digital presence to identify what is blocking growth and where the greatest commercial opportunities lie."
+    }
+  },
+  {
+    "id": "estrategia",
+    "title": {
+      "es": "Estrategia de Marketing a Medida",
+      "en": "Tailored Marketing Strategy"
+    },
+    "kicker": {
+      "es": "Planificación y Roadmap",
+      "en": "Planning & Roadmap"
+    },
+    "description": {
+      "es": "Definimos tu propuesta de valor, audiencias ideales (buyer personas), selección de canales eficaces y objetivos medibles, estructurando un plan de acción para que dejes de improvisar.",
+      "en": "We define your value proposition, ideal audiences (buyer personas), effective channel selection, and measurable goals, structuring an action plan so you can stop improvising."
+    }
+  },
+  {
+    "id": "optimizacion",
+    "title": {
+      "es": "Implementación, Medición y Optimización",
+      "en": "Implementation, Measurement & Optimization"
+    },
+    "kicker": {
+      "es": "Crecimiento Continuo",
+      "en": "Continuous Growth"
+    },
+    "description": {
+      "es": "Ejecutamos acciones alineadas con la estrategia, realizamos un seguimiento de métricas clave (KPIs) y optimizamos el sistema de marketing periódicamente para mejorar el rendimiento comercial.",
+      "en": "We execute actions aligned with the strategy, track key performance indicators (KPIs), and optimize the marketing system periodically to improve business performance."
+    }
+  }
+]
