@@ -18,6 +18,13 @@ main {
   margin: 0 auto;
 }
 
+/* En pantallas muy pequeñas reducimos el margen lateral al mínimo. */
+@media (max-width: 30rem) {
+  .container {
+    width: min(calc(100% - 1.25rem), var(--max-width));
+  }
+}
+
 /* Transiciones suaves para cambios de tema y estados visuales. */
 body,
 .site-header,
@@ -55,15 +62,15 @@ h3,
   color: var(--color-text-strong);
 }
 
-/* Escalado responsivo del H1 para secciones hero. */
+/* Escalado responsivo del H1: parte de 1.6rem en móvil pequeño hasta 3.55rem en desktop. */
 h1 {
-  font-size: clamp(1.9rem, 4vw, 3.55rem);
+  font-size: clamp(1.6rem, 5vw, 3.55rem);
   margin-top: calc(var(--space-md) * 0.66);
 }
 
 /* Tamaño estándar de subtítulos de sección. */
 h2 {
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-size: clamp(1.35rem, 3.5vw, 2.25rem);
 }
 
 /* Color de lectura secundario para texto corrido y listas. */
@@ -76,7 +83,7 @@ small {
 /* Clase utilitaria para párrafos introductorios destacados. */
 .lead {
   max-width: 42rem;
-  font-size: clamp(1.02rem, 2vw, 1.18rem);
+  font-size: clamp(0.98rem, 2.2vw, 1.18rem);
 }
 
 /* Resalta elementos semánticos de énfasis y código inline. */
@@ -85,9 +92,15 @@ code {
   color: var(--color-text-strong);
 }
 
-/* Espaciado vertical base de bloques de contenido entre secciones. */
+/* Espaciado vertical base: reducido en móvil, completo en desktop. */
 .content-section {
-  padding: 0 0 var(--space-3xl);
+  padding: 0 0 var(--space-xl);
+}
+
+@media (min-width: 48rem) {
+  .content-section {
+    padding: 0 0 var(--space-3xl);
+  }
 }
 
 /* Separación entre encabezado de sección y su contenido. */
@@ -95,15 +108,35 @@ code {
   margin-bottom: var(--space-lg);
 }
 
-/* Grid base de tarjetas para servicios/portafolio. */
+/* -------------------------------------------------------
+   Grid de tarjetas — Mobile-first, 3 pasos de ruptura:
+   • 1 col  : default (< 36rem)
+   • 2 cols : ≥ 36rem  (móvil landscape / tablet pequeña)
+   • 3 cols : ≥ 48rem  (tablet / desktop)
+------------------------------------------------------- */
 .card-grid {
   display: grid;
   gap: var(--space-md);
 }
 
-/* A partir de tablet, muestra 3 columnas uniformes. */
+@media (min-width: 36rem) {
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (min-width: 48rem) {
   .card-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* En dispositivos táctiles desactivamos el hover 3D de las cards
+   para evitar el estado "elevado permanente" al tocar. */
+@media (hover: none) {
+  .card:hover {
+    transform: none;
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-border);
   }
 }

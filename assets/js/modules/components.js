@@ -8,6 +8,7 @@ class SiteHeader extends HTMLElement {
   connectedCallback() {
     this.render();
     this.setupThemeToggle();
+    this.setupNavToggle();
   }
 
   render() {
@@ -37,6 +38,8 @@ class SiteHeader extends HTMLElement {
       es: {
         brandLabel: 'Synnergy Lab, inicio',
         navLabel: 'Navegación principal',
+        menuOpenLabel: 'Abrir menú de navegación',
+        menuCloseLabel: 'Cerrar menú de navegación',
         switchLang: 'en',
         switchLabel: 'Switch to English',
         switchText: 'EN',
@@ -51,6 +54,8 @@ class SiteHeader extends HTMLElement {
       en: {
         brandLabel: 'Synnergy Lab, home',
         navLabel: 'Main navigation',
+        menuOpenLabel: 'Open navigation menu',
+        menuCloseLabel: 'Close navigation menu',
         switchLang: 'es',
         switchLabel: 'Cambiar a español',
         switchText: 'ES',
@@ -78,7 +83,7 @@ class SiteHeader extends HTMLElement {
     const oppositeLang = lang === 'es' ? 'en' : 'es';
     const oppositePath = `${siteRootPrefix}${oppositeLang}/${pagePaths[pageKey][oppositeLang]}`;
 
-    // 5. Construir HTML
+    // 5. Construir HTML de los enlaces
     const linksHtml = currentNav.links.map(link => {
       const isActive = pageKey === link.key ? ' is-active' : '';
       const href = `${langRootPrefix}${link.path}`;
@@ -87,6 +92,7 @@ class SiteHeader extends HTMLElement {
 
     const brandHref = langRootPrefix;
 
+    // 6. HTML completo del header + overlay fuera del header
     this.innerHTML = `
       <header class="site-header">
         <div class="container site-header__inner">
@@ -95,17 +101,31 @@ class SiteHeader extends HTMLElement {
             <img class="brand-logo brand-logo--dark" src="${siteRootPrefix}assets/img/branding/synnergy-lab-logo-white.png" alt="Synnergy Lab" />
             <span class="brand-text">Synnergy Lab</span>
           </a>
-          <nav class="site-nav" aria-label="${currentNav.navLabel}">
+          <nav class="site-nav" id="site-nav" aria-label="${currentNav.navLabel}">
             <ul class="nav-list">
               ${linksHtml}
             </ul>
           </nav>
           <div class="language-switcher" aria-label="${currentNav.switchLabel}">
             <a class="language-toggle" href="${oppositePath}" lang="${currentNav.switchLang}" aria-label="${currentNav.switchLabel}" title="${currentNav.switchLabel}">${currentNav.switchText}</a>
-            <button type="button" class="theme-toggle" style="background: none; border: none; cursor: pointer; font-size: 1.2rem; padding: 0 0.5rem;"></button>
+            <button type="button" class="theme-toggle" aria-label="Cambiar tema"></button>
           </div>
+          <button
+            type="button"
+            class="nav-toggle"
+            aria-controls="site-nav"
+            aria-expanded="false"
+            aria-label="${currentNav.menuOpenLabel}"
+          >
+            <span class="nav-toggle__icon" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
         </div>
       </header>
+      <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
     `;
   }
 
@@ -128,7 +148,6 @@ class SiteHeader extends HTMLElement {
       button.setAttribute('title', isDark ? themeCopy.light : themeCopy.dark);
     };
 
-    // Estado inicial
     const currentTheme = root.dataset.theme || 'light';
     updateButton(currentTheme);
 
@@ -137,6 +156,72 @@ class SiteHeader extends HTMLElement {
       root.dataset.theme = nextTheme;
       localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
       updateButton(nextTheme);
+    });
+  }
+
+  setupNavToggle() {
+    const header = this.querySelector('.site-header');
+    const toggle = this.querySelector('.nav-toggle');
+    const overlay = this.querySelector('#nav-overlay');
+    const nav = this.querySelector('.site-nav');
+    if (!header || !toggle || !nav) return;
+
+    const lang = document.documentElement.getAttribute('lang') || 'es';
+    const labels = lang.startsWith('en')
+      ? { open: 'Open navigation menu', close: 'Close navigation menu' }
+      : { open: 'Abrir menú de navegación', close: 'Cerrar menú de navegación' };
+
+    const openMenu = () => {
+      header.classList.add('nav-open');
+      toggle.setAttribute('aria-expanded', 'true');
+      toggle.setAttribute('aria-label', labels.close);
+      if (overlay) {
+        overlay.classList.add('is-visible');
+        overlay.setAttribute('aria-hidden', 'false');
+      }
+      // Bloquear scroll del body mientras el menú está abierto
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeMenu = () => {
+      header.classList.remove('nav-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', labels.open);
+      if (overlay) {
+        overlay.classList.remove('is-visible');
+        overlay.setAttribute('aria-hidden', 'true');
+      }
+      document.body.style.overflow = '';
+    };
+
+    // Toggle al hacer click en el botón hamburger
+    toggle.addEventListener('click', () => {
+      const isOpen = header.classList.contains('nav-open');
+      isOpen ? closeMenu() : openMenu();
+    });
+
+    // Cerrar al hacer click en el overlay
+    if (overlay) {
+      overlay.addEventListener('click', closeMenu);
+    }
+
+    // Cerrar al hacer click en cualquier enlace del menú
+    nav.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    // Cerrar al presionar Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && header.classList.contains('nav-open')) {
+        closeMenu();
+        toggle.focus(); // devolver foco al botón
+      }
+    });
+
+    // Cerrar si la ventana supera el breakpoint de desktop (62rem = 992px)
+    const desktopMq = window.matchMedia('(min-width: 62rem)');
+    desktopMq.addEventListener('change', (e) => {
+      if (e.matches) closeMenu();
     });
   }
 }

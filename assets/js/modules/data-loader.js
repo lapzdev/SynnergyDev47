@@ -2,6 +2,7 @@
  * Cargador de Datos Dinámico - Synnergy Lab
  * Consume archivos JSON en segundo plano (fetch) y renderiza tarjetas
  * de servicios, proyectos y testimonios según el idioma del documento.
+ * Los estilos se aplican exclusivamente mediante clases CSS del sistema.
  */
 
 (function () {
@@ -27,17 +28,11 @@
       .then((data) => {
         servicesContainer.innerHTML = data
           .map((item) => `
-            <article class="card content-card" id="service-${item.id}" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <article class="card content-card" id="service-${item.id}">
               <div>
-                <p class="section-kicker" style="font-size: 0.82rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--color-accent); letter-spacing: 0.08em; text-transform: uppercase;">
-                  ${item.kicker[lang]}
-                </p>
-                <h3 style="margin-bottom: 0.75rem; font-family: var(--font-heading); font-size: clamp(1.2rem, 2.5vw, 1.55rem); color: var(--color-text-strong); line-height: 1.2;">
-                  ${item.title[lang]}
-                </h3>
-                <p style="color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.6;">
-                  ${item.description[lang]}
-                </p>
+                <p class="section-kicker">${item.kicker[lang]}</p>
+                <h3 class="card__title">${item.title[lang]}</h3>
+                <p class="card__body">${item.description[lang]}</p>
               </div>
             </article>
           `)
@@ -57,17 +52,11 @@
       .then((data) => {
         projectsContainer.innerHTML = data
           .map((item) => `
-            <article class="card content-card" id="project-${item.id}" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <article class="card content-card" id="project-${item.id}">
               <div>
-                <p class="section-kicker" style="font-size: 0.82rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--color-accent); letter-spacing: 0.08em; text-transform: uppercase;">
-                  ${item.kicker[lang]}
-                </p>
-                <h3 style="margin-bottom: 0.75rem; font-family: var(--font-heading); font-size: clamp(1.2rem, 2.5vw, 1.55rem); color: var(--color-text-strong); line-height: 1.2;">
-                  ${item.title[lang]}
-                </h3>
-                <p style="color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.6;">
-                  ${item.description[lang]}
-                </p>
+                <p class="section-kicker">${item.kicker[lang]}</p>
+                <h3 class="card__title">${item.title[lang]}</h3>
+                <p class="card__body">${item.description[lang]}</p>
               </div>
             </article>
           `)
@@ -87,15 +76,13 @@
       .then((data) => {
         testimonialsContainer.innerHTML = data
           .map((item) => `
-            <article class="card content-card testimonial-card" id="testimonial-${item.id}" style="display: flex; flex-direction: column; justify-content: space-between; border-left: 4px solid var(--color-accent);">
-              <blockquote style="margin: 0 0 1rem 0; font-style: italic; color: var(--color-text); font-size: 1rem; line-height: 1.6;">
+            <article class="card content-card testimonial-card" id="testimonial-${item.id}">
+              <blockquote class="testimonial-card__quote">
                 "${item.quote[lang]}"
               </blockquote>
-              <div class="testimonial-author">
-                <strong style="display: block; color: var(--color-text-strong); font-size: 0.95rem;">${item.name}</strong>
-                <small style="display: block; color: var(--color-text-muted); font-size: 0.82rem; margin-top: 0.15rem;">
-                  ${item.position[lang]}
-                </small>
+              <div class="testimonial-card__author">
+                <strong class="testimonial-card__name">${item.name}</strong>
+                <small class="testimonial-card__position">${item.position[lang]}</small>
               </div>
             </article>
           `)
